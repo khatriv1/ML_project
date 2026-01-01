@@ -17,6 +17,11 @@ from xgboost import XGBRegressor
 from src.exception import CustomException
 from src.logger import logging
 from src.utlis import save_object, evaluate_models
+from src.components.hyperparameter_tuning import (
+    get_base_models,
+    get_hyperparameter_grids,
+    tune_hyperparameters
+)
 
 @dataclass
 class ModelTrainerConfig:
@@ -37,25 +42,31 @@ class ModelTrainer:
                 test_array[:, -1]
             )
 
-            models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regression": LinearRegression(),
-                "Ridge Regression": Ridge(),
-                "Lasso Regression": Lasso(),
-                "K-Neighbors Regressor": KNeighborsRegressor(),
-                "XGBRegressor": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
-            }
-
+            # Get base models and hyperparameter grids
+            base_models = get_base_models()
+            # Add Linear Regression (no hyperparameters to tune)
+            base_models["Linear Regression"] = LinearRegression()
+            
+            param_grids = get_hyperparameter_grids()
+            
+            # Perform hyperparameter tuning
+            logging.info("Starting hyperparameter tuning...")
+            tuned_models = tune_hyperparameters(
+                X_train=X_train,
+                y_train=y_train,
+                models=base_models,
+                param_grids=param_grids,
+                cv=5,
+                scoring='r2'
+            )
+            
+            # Evaluate tuned models
             model_report: dict = evaluate_models(
                 X_train=X_train, 
                 y_train=y_train, 
                 X_test=X_test, 
                 y_test=y_test,
-                models=models
+                models=tuned_models
             )
 
             # Print all model scores
@@ -81,7 +92,7 @@ class ModelTrainer:
                 list(model_report.values()).index(best_model_score)
             ]
 
-            best_model = models[best_model_name]
+            best_model = tuned_models[best_model_name]
 
             if best_model_score < 0.6:
                 raise CustomException("No best model found")
