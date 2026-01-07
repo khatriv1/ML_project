@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Details | InsuraCost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-light: #34d399;
+            --primary-dark: #047857;
+            --accent: #0ea5e9;
+            --accent-purple: #8b5cf6;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-code: #1a1a24;
+            --text-white: #ffffff;
+            --text-gray: #9ca3af;
+            --text-light-gray: #d1d5db;
+            --border: #2d2d3a;
+            --gold: #fbbf24;
+            --silver: #94a3b8;
+            --bronze: #f97316;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.7;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-white);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-white);
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 7rem 2rem 4rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 .gradient-text {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title .icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(5, 150, 105, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-light);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-white);
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Pipeline Flow */
+        .pipeline-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pipeline-step {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .step-connector {
+            width: 2px;
+            height: 20px;
+            background: var(--border);
+            margin-left: 19px;
+        }
+
+        /* Model Leaderboard */
+        .leaderboard {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 60px 1fr 120px 100px;
+            padding: 1rem 1.5rem;
+            background: var(--bg-code);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-gray);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 120px 100px;
+            padding: 1rem 1.5rem;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .leaderboard-row:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .leaderboard-row.winner {
+            background: rgba(5, 150, 105, 0.08);
+            border-left: 3px solid var(--primary-light);
+        }
+
+        .rank {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .rank.gold {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--gold);
+        }
+
+        .rank.silver {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--silver);
+        }
+
+        .rank.bronze {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--bronze);
+        }
+
+        .rank.normal {
+            background: var(--bg-code);
+            color: var(--text-gray);
+        }
+
+        .model-name {
+            font-weight: 500;
+        }
+
+        .model-type {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 0.25rem;
+        }
+
+        .score {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .score.best {
+            color: var(--primary-light);
+        }
+
+        .score-bar-container {
+            height: 6px;
+            background: var(--bg-code);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .score-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        /* Why XGBoost Section */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            .leaderboard-header,
+            .leaderboard-row {
+                grid-template-columns: 50px 1fr 100px;
+            }
+            .leaderboard-header > *:last-child,
+            .leaderboard-row > *:last-child {
+                display: none;
+            }
+        }
+
+        .comparison-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .comparison-card.good {
+            border-color: var(--primary);
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        .comparison-card.bad {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .comparison-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-card.good h3 {
+            color: var(--primary-light);
+        }
+
+        .comparison-card.bad h3 {
+            color: #ef4444;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .comparison-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.85rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .comparison-card.good li::before {
+            background: var(--primary-light);
+        }
+
+        .comparison-card.bad li::before {
+            background: #ef4444;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-block .comment {
+            color: #6b7280;
+        }
+
+        .code-block .keyword {
+            color: #c084fc;
+        }
+
+        .code-block .string {
+            color: #34d399;
+        }
+
+        .code-block .number {
+            color: #fbbf24;
+        }
+
+        /* Feature Importance */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-name {
+            width: 120px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .feature-bar-container {
+            flex: 1;
+            height: 24px;
+            background: var(--bg-code);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .feature-bar {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding-left: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .feature-bar.smoker {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+            width: 95%;
+        }
+
+        .feature-bar.age {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 70%;
+        }
+
+        .feature-bar.bmi {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 55%;
+        }
+
+        .feature-bar.children {
+            background: linear-gradient(90deg, var(--accent), var(--accent-purple));
+            width: 25%;
+        }
+
+        .feature-bar.region {
+            background: linear-gradient(90deg, var(--accent), var(--accent-purple));
+            width: 15%;
+        }
+
+        .feature-bar.sex {
+            background: linear-gradient(90deg, #6b7280, #9ca3af);
+            width: 10%;
+        }
+
+        /* Dataset Info */
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .dataset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dataset-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .dataset-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+
+        .dataset-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table th {
+            background: var(--bg-code);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-gray);
+        }
+
+        .data-table td {
+            color: var(--text-light-gray);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .type-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .type-tag.num {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--accent);
+        }
+
+        .type-tag.cat {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(5, 150, 105, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--primary-light);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="22" height="22" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                InsuraCost
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/predictdata" class="nav-cta">Get Estimate</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <main class="main-container">
+        
+        <div class="page-header">
+            <h1>
+                <span class="gradient-text">Technical Details</span>
+            </h1>
+            <p>Deep dive into our machine learning pipeline, model selection process, and why XGBoost emerged as the best performer</p>
+        </div>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                    </svg>
+                </span>
+                Dataset Overview
+            </h2>
+            
+            <div class="dataset-grid">
+                <div class="dataset-card">
+                    <div class="dataset-value">1,338</div>
+                    <div class="dataset-label">Total Records</div>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-value">6</div>
+                    <div class="dataset-label">Input Features</div>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-value">0</div>
+                    <div class="dataset-label">Missing Values</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 1.5rem; overflow-x: auto;">
+                <h3>Feature Definitions</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>age</strong></td>
+                            <td><span class="type-tag num">Numerical</span></td>
+                            <td>Age of the insured person</td>
+                            <td>18 - 64</td>
+                        </tr>
+                        <tr>
+                            <td><strong>sex</strong></td>
+                            <td><span class="type-tag cat">Categorical</span></td>
+                            <td>Gender of the person</td>
+                            <td>male, female</td>
+                        </tr>
+                        <tr>
+                            <td><strong>bmi</strong></td>
+                            <td><span class="type-tag num">Numerical</span></td>
+                            <td>Body Mass Index</td>
+                            <td>15.96 - 53.13</td>
+                        </tr>
+                        <tr>
+                            <td><strong>children</strong></td>
+                            <td><span class="type-tag num">Numerical</span></td>
+                            <td>Number of dependents</td>
+                            <td>0 - 5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>smoker</strong></td>
+                            <td><span class="type-tag cat">Categorical</span></td>
+                            <td>Smoking status</td>
+                            <td>yes, no</td>
+                        </tr>
+                        <tr>
+                            <td><strong>region</strong></td>
+                            <td><span class="type-tag cat">Categorical</span></td>
+                            <td>US geographic region</td>
+                            <td>northeast, northwest, southeast, southwest</td>
+                        </tr>
+                        <tr>
+                            <td><strong>charges</strong></td>
+                            <td><span class="type-tag num">Target</span></td>
+                            <td>Annual insurance cost</td>
+                            <td>$1,121 - $63,770</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                    </svg>
+                </span>
+                Machine Learning Pipeline
+            </h2>
+
+            <div class="pipeline-flow">
+                <div class="pipeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Data Ingestion</h4>
+                        <p>Load insurance.csv dataset, split into 80% training (1,070 records) and 20% testing (268 records) using stratified sampling with random_state=42 for reproducibility.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="pipeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Data Transformation</h4>
+                        <p><strong>Numerical features</strong> (age, bmi, children): SimpleImputer (median) → StandardScaler<br>
+                        <strong>Categorical features</strong> (sex, smoker, region): SimpleImputer (most frequent) → OneHotEncoder → StandardScaler</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="pipeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Hyperparameter Tuning</h4>
+                        <p>GridSearchCV with 5-fold cross-validation to find optimal parameters for each model. Scoring metric: R² (coefficient of determination).</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="pipeline-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Model Training & Evaluation</h4>
+                        <p>Train 10 different regression models, evaluate on test set, select the best performer based on R² score.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="pipeline-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Model Serialization</h4>
+                        <p>Save the best model (XGBoost) and preprocessor as .pkl files using pickle for deployment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment"># Preprocessing Pipeline</span><br>
+                preprocessor = <span class="keyword">ColumnTransformer</span>([<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">"num_pipeline"</span>, num_pipeline, [<span class="string">"age"</span>, <span class="string">"bmi"</span>, <span class="string">"children"</span>]),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;(<span class="string">"cat_pipeline"</span>, cat_pipeline, [<span class="string">"sex"</span>, <span class="string">"smoker"</span>, <span class="string">"region"</span>])<br>
+                ])
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </span>
+                Model Performance Leaderboard
+            </h2>
+
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <span>Rank</span>
+                    <span>Model</span>
+                    <span>R² Score</span>
+                    <span>Performance</span>
+                </div>
+                <div class="leaderboard-row winner">
+                    <span class="rank gold">1</span>
+                    <div>
+                        <div class="model-name">XGBRegressor</div>
+                        <div class="model-type">Gradient Boosting (Extreme)</div>
+                    </div>
+                    <span class="score best">0.8839</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank silver">2</span>
+                    <div>
+                        <div class="model-name">CatBoosting Regressor</div>
+                        <div class="model-type">Gradient Boosting</div>
+                    </div>
+                    <span class="score">0.8805</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 96%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank bronze">3</span>
+                    <div>
+                        <div class="model-name">Gradient Boosting</div>
+                        <div class="model-type">Ensemble Method</div>
+                    </div>
+                    <span class="score">0.8802</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 95%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">4</span>
+                    <div>
+                        <div class="model-name">Random Forest</div>
+                        <div class="model-type">Ensemble Method</div>
+                    </div>
+                    <span class="score">0.8774</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 93%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">5</span>
+                    <div>
+                        <div class="model-name">Decision Tree</div>
+                        <div class="model-type">Tree-Based</div>
+                    </div>
+                    <span class="score">0.8683</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 88%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">6</span>
+                    <div>
+                        <div class="model-name">AdaBoost Regressor</div>
+                        <div class="model-type">Ensemble Method</div>
+                    </div>
+                    <span class="score">0.8553</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 82%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">7</span>
+                    <div>
+                        <div class="model-name">K-Neighbors Regressor</div>
+                        <div class="model-type">Instance-Based</div>
+                    </div>
+                    <span class="score">0.8130</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">8</span>
+                    <div>
+                        <div class="model-name">Ridge Regression</div>
+                        <div class="model-type">Linear (L2 Regularization)</div>
+                    </div>
+                    <span class="score">0.7833</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">9</span>
+                    <div>
+                        <div class="model-name">Linear Regression</div>
+                        <div class="model-type">Linear</div>
+                    </div>
+                    <span class="score">0.7832</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 59%"></div>
+                    </div>
+                </div>
+                <div class="leaderboard-row">
+                    <span class="rank normal">10</span>
+                    <div>
+                        <div class="model-name">Lasso Regression</div>
+                        <div class="model-type">Linear (L1 Regularization)</div>
+                    </div>
+                    <span class="score">0.7812</span>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: 58%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📊 Key Observation</h4>
+                <p>Tree-based models (XGBoost, CatBoost, Gradient Boosting) significantly outperform linear models (Ridge, Lasso, Linear Regression) by ~10% R². This indicates the insurance cost data has strong non-linear relationships and feature interactions.</p>
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                </span>
+                Why XGBoost Won
+            </h2>
+
+            <div class="comparison-grid">
+                <div class="comparison-card good">
+                    <h3>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Why XGBoost Excels
+                    </h3>
+                    <ul>
+                        <li><strong>Captures non-linear relationships</strong> - Age and BMI don't affect cost linearly</li>
+                        <li><strong>Handles the "smoker effect"</strong> - Smokers pay 3-4x more, creating distinct groups</li>
+                        <li><strong>Detects feature interactions</strong> - Old + smoker = much higher than sum of parts</li>
+                        <li><strong>Built-in regularization</strong> - L1 & L2 prevent overfitting</li>
+                        <li><strong>Handles mixed data types</strong> - Works well with both categorical and numerical</li>
+                    </ul>
+                </div>
+                <div class="comparison-card bad">
+                    <h3>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+                        </svg>
+                        Why Linear Models Struggled
+                    </h3>
+                    <ul>
+                        <li><strong>Assumes linear relationships</strong> - Can only draw straight lines</li>
+                        <li><strong>Can't handle sharp jumps</strong> - Smoker vs non-smoker is a 3x jump, not gradual</li>
+                        <li><strong>No interaction detection</strong> - Treats each feature independently</li>
+                        <li><strong>Sensitive to outliers</strong> - High-cost smokers skew predictions</li>
+                        <li><strong>Limited expressiveness</strong> - y = w1*x1 + w2*x2 + ... is too simple</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 1.5rem;">
+                <h3>The Smoker Effect Explained</h3>
+                <p style="margin-bottom: 1rem;">The biggest factor in insurance cost is smoking status. Here's why tree-based models handle this better:</p>
+                
+                <div class="code-block">
+                    <span class="comment"># Linear Model thinks:</span><br>
+                    cost = <span class="number">5000</span> + (<span class="number">300</span> × age) + (<span class="number">10000</span> × smoker) + ...<br><br>
+                    <span class="comment"># Reality (what XGBoost captures):</span><br>
+                    <span class="keyword">if</span> smoker == <span class="string">"yes"</span>:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;cost = <span class="number">20000</span> + (<span class="number">500</span> × age) + (<span class="number">800</span> × bmi)  <span class="comment"># Different formula!</span><br>
+                    <span class="keyword">else</span>:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;cost = <span class="number">2000</span> + (<span class="number">250</span> × age) + (<span class="number">300</span> × bmi)
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-gray); font-size: 0.9rem;">XGBoost essentially learns different pricing models for smokers vs non-smokers, while linear regression tries to use one formula for everyone.</p>
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                    </svg>
+                </span>
+                Feature Importance
+            </h2>
+
+            <div class="card">
+                <h3>Which Features Matter Most?</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-gray);">Based on XGBoost's feature importance scores:</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="feature-name">Smoker</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar smoker">~65% importance</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Age</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar age">~15% importance</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">BMI</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar bmi">~12% importance</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Children</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar children">~4% importance</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Region</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar region">~2% importance</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Sex</span>
+                        <div class="feature-bar-container">
+                            <div class="feature-bar sex">~2% importance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 Key Insight</h4>
+                <p>Smoking status alone accounts for ~65% of the prediction power. This makes biological sense: smokers have significantly higher healthcare costs due to increased risk of cancer, heart disease, and respiratory issues.</p>
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                    </svg>
+                </span>
+                Hyperparameter Tuning
+            </h2>
+
+            <div class="card">
+                <h3>XGBoost Tuned Parameters</h3>
+                <div class="code-block">
+                    <span class="comment"># GridSearchCV parameter grid for XGBoost</span><br>
+                    param_grid = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"n_estimators"</span>: [<span class="number">50</span>, <span class="number">100</span>, <span class="number">200</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"learning_rate"</span>: [<span class="number">0.01</span>, <span class="number">0.1</span>, <span class="number">0.2</span>],<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"max_depth"</span>: [<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]<br>
+                    }<br><br>
+                    <span class="comment"># Best parameters found:</span><br>
+                    best_params = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"n_estimators"</span>: <span class="number">200</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"learning_rate"</span>: <span class="number">0.1</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"max_depth"</span>: <span class="number">5</span><br>
+                    }
+                </div>
+            </div>
+
+            <div class="comparison-grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3>What Each Parameter Does</h3>
+                    <p><strong>n_estimators</strong>: Number of trees to build (200 = more learning capacity)</p>
+                    <p style="margin-top: 0.5rem;"><strong>learning_rate</strong>: How much each tree contributes (0.1 = balanced)</p>
+                    <p style="margin-top: 0.5rem;"><strong>max_depth</strong>: How deep each tree can grow (5 = moderate complexity)</p>
+                </div>
+                <div class="card">
+                    <h3>Cross-Validation Strategy</h3>
+                    <p><strong>Method</strong>: 5-Fold Cross-Validation</p>
+                    <p style="margin-top: 0.5rem;"><strong>Scoring</strong>: R² (coefficient of determination)</p>
+                    <p style="margin-top: 0.5rem;"><strong>Total fits</strong>: 3 × 3 × 3 × 5 = 135 model fits per algorithm</p>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="section">
+            <h2 class="section-title">
+                <span class="icon">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </span>
+                Summary
+            </h2>
+
+            <div class="card">
+                <h3>Final Model: XGBoost Regressor</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <p style="color: var(--text-gray); font-size: 0.85rem;">R² Score</p>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: var(--primary-light);">0.8839</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-gray); font-size: 0.85rem;">Accuracy Interpretation</p>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: var(--primary-light);">88.39%</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-gray); font-size: 0.85rem;">Variance Explained</p>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: var(--primary-light);">88.39%</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-gray);">
+                    The model explains 88.39% of the variance in insurance costs. The remaining ~12% is due to factors not captured in the dataset (medical history, lifestyle, specific health conditions, etc.).
+                </p>
+            </div>
+        </section>
+    </main>
+
+    
+    <footer class="footer">
+        <p>Built with XGBoost, scikit-learn & Flask | Medical Insurance Cost Predictor | ML Project</p>
+    </footer>
+</body>
+</html>
