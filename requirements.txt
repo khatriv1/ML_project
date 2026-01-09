@@ -1,10 +1,10 @@
+Flask==2.3.3
 pandas
 numpy
 dill
 scikit-learn
 xgboost
 catboost
-flask
 seaborn
 matplotlib
 -e .
